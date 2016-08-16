@@ -5,7 +5,7 @@
 
 #define BALL_SIZE 12
 #define BORDER 10
-#define SPEED 2
+#define SPEED 2.0
 
 Ball::Ball()
 {
@@ -33,23 +33,25 @@ void Ball::moving()
     x+=horizontal;
     y+=vertical;
     
-    if (y <  BORDER || x < BORDER  || x > screen->w-ball_rect.w-BORDER 
-		|| y > screen->h - ball_rect.h-BORDER)
+    if (y <  BORDER || 
+	//	x < BORDER  || 
+	//	x > screen->w-ball_rect.w-BORDER || 
+		y > screen->h - ball_rect.h-BORDER)
     {
 		std::cout<<"Ball fall down!"<<std::endl;
 		fallen = true;
 		return;
 	}
     
-    //Utkozesek vizsgalata
-    if (y <= BORDER) 
-		vertical*=-1; //teteje
+    //Check collisions
+  //  if (y <= BORDER) 
+  // 		vertical*=-1; //top side
     if (x > screen->w - ball_rect.w-BORDER) 
-		horizontal*=-1; //jobb oldal
+		horizontal*=-1; //right side
     if (x <= BORDER) 
-		horizontal*=-1; //bal oldal
-    if (y > screen->h - ball_rect.h-BORDER) 
-		vertical*=-1; //alja
+		horizontal*=-1; //left side
+  //  if (y > screen->h - ball_rect.h-BORDER) 
+  //		vertical*=-1; //botton side
 }
 
 void Ball::bounce_up()
@@ -92,4 +94,16 @@ bool Ball::is_collide(SDL_Rect object)
 			return true;
 		}
 	return false;
+}
+
+void Ball::speed_up(double plus_speed)
+{
+	if (vertical > 0)
+		vertical+=plus_speed;
+	else 
+		vertical-=plus_speed;
+	if (horizontal > 0)
+		horizontal+=plus_speed;
+	else
+		horizontal-=plus_speed;
 }

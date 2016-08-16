@@ -4,7 +4,7 @@ class Ball
 {
   private:
     int x,y;
-    int horizontal, vertical; //speed vector
+    double horizontal, vertical; //speed vector (velocity)
     SDL_Rect ball_rect;
     bool fly;
     bool fallen;
@@ -16,4 +16,5 @@ class Ball
     void bounce_up();
     void bounce_down();
     bool is_fallen();
+    void speed_up(double);
 };

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 #include "Ball.h"
@@ -43,7 +44,11 @@ void make_start_menu()
 		SDL_BlitSurface(text, NULL, screen, &offset);
 		
 		offset.x = 100, offset.y = screen->h/3+100;
-		text = TTF_RenderText_Solid(pixel_font_normal, "Use arrow keys (<- and ->) to move rackets. Press any key to continue.", text_color);
+		text = TTF_RenderText_Solid(pixel_font_normal, "PLAYER 1: Use arrow keys to move rackets. PLAYER 2: Use 'a' and 's' keys to move rackets.", text_color);
+		SDL_BlitSurface(text, NULL, screen, &offset);
+			
+		offset.x = screen->w/3, offset.y = screen->h/3+150;
+		text = TTF_RenderText_Solid(pixel_font_normal, "Press any key to continue...", text_color);
 		SDL_BlitSurface(text, NULL, screen, &offset);
 		
 		SDL_Flip(screen);
@@ -79,6 +84,7 @@ int main ( int argc, char** argv )
 
     // program main loop
     bool done = false;
+    int counter = 0;
     while (!done)
     {		
         // message processing loop
@@ -111,8 +117,8 @@ int main ( int argc, char** argv )
 		racket1.paint();
 		racket2.paint();
 		
-        if (pressed_keys[SDLK_SPACE]) 
-			ball.start();
+        //if (pressed_keys[SDLK_SPACE]) 
+		ball.start();
 		
 		ball.moving();
 		
@@ -132,18 +138,33 @@ int main ( int argc, char** argv )
         // If we press left key:
         if (pressed_keys[SDLK_LEFT])
         { 
-			racket1.moveLeft();
-			racket2.moveLeft();
-			
+			racket1.moveLeft();	
         }
+        //if we press 'a' key
+        if (pressed_keys[SDLK_a])
+        {
+			racket2.moveLeft();
+		}
         // If we press right key
         if (pressed_keys[SDLK_RIGHT])
         { 
 			racket1.moveRight();
+		}
+		//if we press 'd' key
+		if (pressed_keys[SDLK_d])
+		{
 			racket2.moveRight();
 		}
+		
         SDL_Flip(screen); //refresh screen
-        SDL_Delay(15);   //some delay
+        SDL_Delay(10);   //some delay
+		++counter;
+		if (counter%100 == 0)
+		{
+			ball.speed_up(0.3);
+			counter = 0;
+		}
+		
     } // end main loop
     
     return 0;

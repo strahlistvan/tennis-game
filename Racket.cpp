@@ -2,20 +2,22 @@
 #include <inttypes.h>
 #include "Racket.h"
 #define STEP_SIZE 4
+#define RACKET_WIDTH 60
+#define RACKET_HEIGHT 20
 
 Racket::Racket()
 {
 	SDL_Surface * screen = SDL_GetVideoSurface();
-	racket_rect.h = 20; 	//racket height
-	racket_rect.w = 60;   //racket width
+	racket_rect.h = RACKET_HEIGHT; 	
+	racket_rect.w = RACKET_WIDTH;   
 	racket_rect.x = (screen->w)/2 -(racket_rect.w)/2;
 	racket_rect.y = (screen->h) - racket_rect.h;
 }
 
 Racket::Racket(int pos_x, int pos_y)
 {
-	racket_rect.h = 20; 	//racket height
-	racket_rect.w = 60;   //racket width
+	racket_rect.h = RACKET_HEIGHT; 	
+	racket_rect.w = RACKET_WIDTH; 
 	racket_rect.x = pos_x -(racket_rect.w)/2;
 	racket_rect.y = pos_y - racket_rect.h;
 }
