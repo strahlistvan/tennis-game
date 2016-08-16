@@ -1,21 +1,78 @@
 #include <iostream>
 #include <cstdlib>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include "Ball.h"
 #include "Racket.h"
+
+using namespace std;
+
+void make_start_menu()
+{
+	SDL_Surface * screen = SDL_GetVideoSurface();
+	if (!screen)
+	{
+		cerr<<"Error! "<<SDL_GetError()<<endl;
+		return;
+	}
+	SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
+	
+	SDL_Event start_event;
+	bool started = false;
+	while (!started)
+	{
+		while (SDL_PollEvent(&start_event))
+		{
+			if (start_event.type == SDL_KEYDOWN)
+			{
+				started = true;
+			}
+		}
+		
+		TTF_Font * pixel_font_big = TTF_OpenFont("alterebro-pixel-font.ttf", 72);
+		TTF_Font * pixel_font_normal = TTF_OpenFont("alterebro-pixel-font.ttf", 20);
+		
+		// Write text to surface
+		SDL_Color text_color = {255, 255, 255};
+		SDL_Surface * text; //surface for text
+		SDL_Rect offset;  //position of the text
+		
+		text = TTF_RenderText_Solid(pixel_font_big, " Tennis Game ",
+   text_color);
+		offset.x = screen->w/3, offset.y = screen->h/3;
+		SDL_BlitSurface(text, NULL, screen, &offset);
+		
+		offset.x = 100, offset.y = screen->h/3+100;
+		text = TTF_RenderText_Solid(pixel_font_normal, "Use arrow keys (<- and ->) to move rackets. Press any key to continue.", text_color);
+		SDL_BlitSurface(text, NULL, screen, &offset);
+		
+		SDL_Flip(screen);
+	}
+}
 
 int main ( int argc, char** argv )
 {
     unsigned char * pressed_keys = SDL_GetKeyState(0);
     // initialize SDL video
-    if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+    if ( SDL_Init(SDL_INIT_VIDEO) < 0 )
     {
-		std::cerr<<"Unable to init SDL:"<<SDL_GetError()<<std::endl;
+		cerr<<"Unable to init SDL:"<<SDL_GetError()<<endl;
         return 1;
     }
 
+	if (TTF_Init() != 0)
+	{
+		cerr << "TTF_Init() Failed: " << TTF_GetError() << endl;
+		return 1;
+   }
+
     // create a new window
     SDL_Surface * screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    SDL_WM_SetCaption("Tennis Game", "Tennis Game");
+
+    //Start menu
+	make_start_menu();
+    
     Ball ball;
 	Racket racket1;
 	Racket racket2(50, 50);
@@ -23,7 +80,7 @@ int main ( int argc, char** argv )
     // program main loop
     bool done = false;
     while (!done)
-    {
+    {		
         // message processing loop
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -48,22 +105,9 @@ int main ( int argc, char** argv )
 				}
 			} // end switch
         } // end of message processing
-         SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
-        // DRAWING STARTS HERE bricks
-   /*      SDL_Rect tegla;
-         int k=0; //k eltolas miatt
-        for (int i=0; i<screen->h/2; i+=tegla.h+5) //lefele megy
-            for (int j=k; j<screen->w; j+=tegla.w+5) //balra megy
-            {
-				tegla.x=j; tegla.y=i;
-				tegla.h=10; tegla.w=30;
-				SDL_FillRect(screen,&tegla,SDL_MapRGB(screen->format,200,20,0));
-				if (k)
-					k+=5;
-				else 
-					k-=5;
-             }
-   */
+         
+        SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
+        
 		racket1.paint();
 		racket2.paint();
 		

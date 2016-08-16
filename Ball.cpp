@@ -33,7 +33,8 @@ void Ball::moving()
     x+=horizontal;
     y+=vertical;
     
-    if (y <  BORDER || x < BORDER  || x > screen->w-ball_rect.w-BORDER || y > screen->h - ball_rect.h-BORDER)
+    if (y <  BORDER || x < BORDER  || x > screen->w-ball_rect.w-BORDER 
+		|| y > screen->h - ball_rect.h-BORDER)
     {
 		std::cout<<"Ball fall down!"<<std::endl;
 		fallen = true;
@@ -43,7 +44,7 @@ void Ball::moving()
     //Utkozesek vizsgalata
     if (y <= BORDER) 
 		vertical*=-1; //teteje
-    if (x > screen->w-ball_rect.w-BORDER) 
+    if (x > screen->w - ball_rect.w-BORDER) 
 		horizontal*=-1; //jobb oldal
     if (x <= BORDER) 
 		horizontal*=-1; //bal oldal
