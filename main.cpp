@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <cstdlib>
 #include <ctime>
 #include <SDL/SDL.h>
@@ -125,11 +126,14 @@ int main (int argc, char ** argv)
     } // end main loop
     
     time_t elapsed = difftime(time(0), start_time);
-    string winner = "Congratulations Player ";
-    winner += (ball.getY() <= BORDER)? " 1 ": " 2 ";
-	winner += "You are win. Elapsed time: ";
-    make_menu("THE END", winner, "Press any key to exit program...");
+    struct tm * elapsed_time = localtime(&elapsed);
+    stringstream winner;
+    winner<<"Congratulations Player ";
+    winner << (ball.getY() <= BORDER)? " 1 !": " 2 !";
+	winner <<"You are win. Elapsed time: "<<elapsed<<" seconds";
+    make_menu("THE END", winner.str(), "Press any key to exit program...");
     
+    cout<<winner<<endl;
     cout<<"The end ("<<ball.getX()<<","<<ball.getY()<<")"<<endl;
   
     
