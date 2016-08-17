@@ -3,9 +3,8 @@
 class Ball 
 {
   private:
-    int x,y;
     double horizontal, vertical; //speed vector (velocity)
-    SDL_Rect ball_rect;
+    SDL_Rect ball_rect;   //current position and size of ball
     bool fly;
     bool fallen;
   public:
@@ -17,4 +16,8 @@ class Ball
     void bounce_down();
     bool is_fallen();
     void speed_up(double);
+    int getX();
+    int getY();
+    int getWidth();
+    int getHeight();
 };
