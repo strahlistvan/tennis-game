@@ -1,14 +1,18 @@
+CC=g++
+CFLAGS=-O3 -c
+
+
 all: main.o Racket.o Ball.o
-	 g++ main.o Racket.o Ball.o -o tennis-game -lSDL -lSDL_ttf
+	 $(CC) main.o Racket.o Ball.o -o tennis-game -lSDL -lSDL_ttf
 	
 main: main.cpp
-	 g++ -O3 -c main.cpp
+	  $(CC) $(CFLAGS) main.cpp
 
 Racket: Racket.cpp
-	 g++ -O3 -c Racket.cpp
+	 $(CC) $(CFLAGS) Racket.cpp
 	 
 Ball: Ball.cpp
-	g++ -O3 -c Ball.cpp
+	$(CC) $(CFLAGS) Ball.cpp
 	
 clean:
 	rm *.o
