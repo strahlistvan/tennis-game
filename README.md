@@ -16,3 +16,6 @@ A classic ball game written in C++ with SDL graphic library.
 - Build the project with Makefile 
 - Or compile manually: `g++ main.cpp Ball.cpp Racket.cpp -lSDL -lSDL_ttf`
 
+## Install on Windows
+- Run the tennis-game.exe 
+- Important: SDL.dll and tennis-game.exe must be in the same folder.
