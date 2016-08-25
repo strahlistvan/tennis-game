@@ -3,7 +3,7 @@ CFLAGS=-O3 -c
 
 
 all: main.o Racket.o Ball.o
-	 $(CC) main.o Racket.o Ball.o -o tennis-game -lSDL -lSDL_ttf
+	 $(CC) main.o Racket.o Ball.o -o tennis-game -lSDL -lSDL_ttf -lSDL_mixer
 	
 main: main.cpp
 	  $(CC) $(CFLAGS) main.cpp

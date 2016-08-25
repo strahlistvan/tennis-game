@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void make_menu(string, string, string);
+void make_caption(string, string, string);
 
 int main (int argc, char ** argv)
 {
@@ -33,7 +33,7 @@ int main (int argc, char ** argv)
     SDL_WM_SetCaption("Tennis Game", "Tennis Game");
 
     //Start menu
-	make_menu("Tennis Game", "PLAYER 1: Use arrow keys to move rackets. PLAYER 2: Use 'a' and 's' keys to move rackets.", "Press any key to continue...");
+	make_caption("Tennis Game", "PLAYER 1: Use arrow keys to move rackets. PLAYER 2: Use 'a' and 's' keys to move rackets.", "Press any key to continue...");
     
     Ball ball;
 	Racket racket1;
@@ -129,11 +129,11 @@ int main (int argc, char ** argv)
     struct tm * elapsed_time = localtime(&elapsed);
     stringstream winner;
     winner<<"Congratulations Player ";
-    winner << (ball.getY() <= BORDER)? " 1 !": " 2 !";
-	winner <<"You are win. Elapsed time: "<<elapsed<<" seconds";
-    make_menu("THE END", winner.str(), "Press any key to exit program...");
+	int winnerNum = (ball.getY() <= BORDER)? 1 : 2;
+    winner << winnerNum;
+	winner <<", you are win! Elapsed time: "<<elapsed<<" seconds";
+    make_caption("THE END", winner.str(), "Press any key to exit program...");
     
-    cout<<winner<<endl;
     cout<<"The end ("<<ball.getX()<<","<<ball.getY()<<")"<<endl;
   
     
@@ -142,7 +142,7 @@ int main (int argc, char ** argv)
     return 0;
 }
 
-void make_menu(string text1, string text2, string text3)
+void make_caption(string text1, string text2, string text3)
 {
 	SDL_Surface * screen = SDL_GetVideoSurface();
 	if (!screen)
@@ -180,7 +180,7 @@ void make_menu(string text1, string text2, string text3)
 		offset.x = BORDER;
 		offset.y = screen->h/3+100;
 		
-		while (text2.size() < screen->w / 10)
+		while (text2.size() < screen->w / 8)
 		{
 			text2 = " "+text2+" ";
 		}
@@ -195,4 +195,5 @@ void make_menu(string text1, string text2, string text3)
 		
 		SDL_Flip(screen);
 	}
+	SDL_FreeSurface(text);
 }

@@ -3,10 +3,14 @@
 #include <inttypes.h>
 #include <iostream>
 #include <cmath>
+#include <SDL/SDL_mixer.h>
 
 #define BALL_SIZE 12
 #define BORDER 10
-#define SPEED 2.0
+#define SPEED 3.0
+#define BOING_EFFECT "boing.wav"
+
+using namespace std;
 
 Ball::Ball()
 {
@@ -20,6 +24,10 @@ Ball::Ball()
     SDL_FillRect(screen, &ball_rect, SDL_MapRGB(screen->format,255,255,255));
     fly = false;
     fallen = false;
+    
+    //open audio:
+    this->boing_effect = BOING_EFFECT;
+    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 }
 
 void Ball::moving()
@@ -46,13 +54,17 @@ void Ball::moving()
     {
 		horizontal*=-1; //right side
 		ball_rect.x -= 3*abs(horizontal);
-		//x -= 3*abs(horizontal);
+		
+		Mix_Chunk * bounce_effect = Mix_LoadWAV(boing_effect.c_str());
+		Mix_PlayChannel(1, bounce_effect, 0);
 	}
     if (ball_rect.x <= BORDER) 
     {
 		horizontal*=-1; //left side
 		ball_rect.x += 3*abs(horizontal);
-		//x += 3*abs(horizontal);
+		
+		Mix_Chunk * bounce_effect = Mix_LoadWAV(boing_effect.c_str());
+		Mix_PlayChannel(1, bounce_effect, 0);
 	}
 }
 
@@ -61,6 +73,9 @@ void Ball::bounce_up()
 	ball_rect.y -= 2*abs(vertical);
 	//y-=2*abs(vertical);
 	vertical*=-1;
+	
+	Mix_Chunk * bounce_effect = Mix_LoadWAV(boing_effect.c_str());
+	Mix_PlayChannel(1, bounce_effect, 0);
 }
 
 void Ball::bounce_down()
@@ -68,6 +83,9 @@ void Ball::bounce_down()
 	ball_rect.y += 5*abs(vertical);
 //	y+=5*abs(vertical);
 	vertical*=-1;
+	
+	Mix_Chunk * bounce_effect = Mix_LoadWAV(boing_effect.c_str());
+	Mix_PlayChannel(1, bounce_effect, 0);
 	
 }
 
@@ -129,3 +147,13 @@ void Ball::speed_up(double plus_speed)
  {
 	 return ball_rect.h;
  }
+
+ 
+void Ball::set_boing_effect(string wav_file_name)
+{
+	this->boing_effect = wav_file_name;
+}
+string Ball::get_boing_effect()
+{
+	return this->boing_effect;
+}

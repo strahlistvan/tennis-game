@@ -1,7 +1,7 @@
 #include <SDL/SDL.h>
 #include <inttypes.h>
 #include "Racket.h"
-#define STEP_SIZE 4
+#define STEP_SIZE 5
 #define RACKET_WIDTH 60
 #define RACKET_HEIGHT 20
 
